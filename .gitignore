@@ -39,3 +39,5 @@ secrets/
 
 # Ignore lockfile from TF 0.14+
 .terraform.lock.hcl
+
+terraform.tfvars
