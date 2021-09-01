@@ -8,7 +8,7 @@ variable "gcp_credentials" {
   description = "gcp credentials"
 }
 
-variable "secret" {
-  type        = string
+variable "secrets" {
+  type        = set(string)
   description = "the secret"
 }

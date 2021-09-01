@@ -9,10 +9,12 @@ terraform {
 }
 
 provider "google" {
-  project     = var.project_id
+  project = var.project_id
+  #  impersonate_service_account = "sa-ship@mms-sea-tools-p-abcd.iam.gserviceaccount.com"
   credentials = base64decode(var.gcp_credentials)
 }
 
 data "google_secret_manager_secret_version" "this" {
-  secret = var.secret
+  for_each = toset(var.secrets)
+  secret   = each.value
 }
