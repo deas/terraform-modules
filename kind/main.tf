@@ -81,10 +81,10 @@ locals {
 module "flux" {
   source = "../flux"
   # version
-  github_owner    = var.github_owner
-  repository_name = var.repository_name
+  github_owner    = var.flux_github_owner
+  repository_name = var.flux_repository_name
   target_path     = var.target_path
-  branch          = var.branch
+  branch          = var.flux_branch
   flux_install    = file(local.filename_flux_install)
   flux_sync       = file(local.filename_flux_sync)
   tls_key = {
@@ -99,8 +99,6 @@ module "flux" {
   providers = {
     kubernetes = kubernetes
   }
-  # hack            = kind_cluster.default.kubeconfig
-  # depends_on      = [kind_cluster.default]
 }
 
 module "secrets" {
@@ -108,7 +106,7 @@ module "secrets" {
   # version
   gcp_credentials = var.gcp_secrets_credentials
   project_id      = var.gcp_secrets_project_id
-  secrets         = var.secrets
+  secrets         = var.flux_secrets
 }
 
 #module "flux-manifests" {
