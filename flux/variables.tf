@@ -30,12 +30,27 @@ variable "target_path" {
   description = "flux sync target path"
 }
 
+/*
 variable "github_init" {
   type        = bool
   default     = false
   description = "Initialize github files"
 }
+*/
 
-variable "k8s_context" {
-  type = string
+variable "hack" {
+  type        = string
+  default     = "bananas"
+}
+
+variable "flux_install" {
+  type        = string
+}
+
+variable "flux_sync" {
+  type        = string
+}
+
+variable "tls_key" {
+  type        = map(string)
 }

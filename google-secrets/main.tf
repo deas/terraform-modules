@@ -10,7 +10,6 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  #  impersonate_service_account = "sa-ship@mms-sea-tools-p-abcd.iam.gserviceaccount.com"
   credentials = base64decode(var.gcp_credentials)
 }
 

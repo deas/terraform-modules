@@ -47,3 +47,7 @@ variable "gcp_secrets_project_id" {
 variable "secrets" {
   type = set(string)
 }
+
+variable "cluster" {
+  type = string
+}
