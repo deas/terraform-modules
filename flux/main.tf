@@ -75,3 +75,15 @@ resource "kubernetes_secret" "main" {
     known_hosts    = local.known_hosts
   }
 }
+
+resource "kubernetes_secret" "additional" {
+  for_each = var.additional_keys
+  depends_on = [kubectl_manifest.install]
+
+  metadata {
+    name      = each.key
+    namespace = "flux-system"
+  }
+
+  data = each.value
+}

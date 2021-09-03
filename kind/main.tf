@@ -41,6 +41,15 @@ provider "kubernetes" {
   cluster_ca_certificate = kind_cluster.default.cluster_ca_certificate
 }
 
+provider "kubectl" {
+  host                   = kind_cluster.default.endpoint
+  client_certificate     = kind_cluster.default.client_certificate
+  client_key             = kind_cluster.default.client_key
+  cluster_ca_certificate = kind_cluster.default.cluster_ca_certificate
+  # token                  = data.aws_eks_cluster_auth.main.token
+  load_config_file = false
+}
+
 resource "kind_cluster" "default" {
   name           = "search"
   wait_for_ready = true
@@ -79,10 +88,13 @@ module "flux" {
   flux_install    = file(local.filename_flux_install)
   flux_sync       = file(local.filename_flux_sync)
   tls_key = {
-    # ["sops-gpg", "id-rsa-fluxbot-ro", "id-rsa-fluxbot-rw"]
     private = module.secrets.secret["id-rsa-fluxbot-ro"].secret_data
     public  = module.secrets.secret["id-rsa-fluxbot-ro-pub"].secret_data
-    # openssh = ""
+  }
+  additional_keys = {
+    sops-gpg = {
+      "sops.asc" = module.secrets.secret["sops-gpg"].secret_data
+    }
   }
   providers = {
     kubernetes = kubernetes
