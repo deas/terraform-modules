@@ -39,23 +39,23 @@ variable "github_init" {
 */
 
 variable "hack" {
-  type        = string
-  default     = "bananas"
+  type    = string
+  default = "bananas"
 }
 
 variable "flux_install" {
-  type        = string
+  type = string
 }
 
 variable "flux_sync" {
-  type        = string
+  type = string
 }
 
 variable "tls_key" {
-  type        = map(string)
+  type = map(string)
 }
 
 variable "additional_keys" {
-  type        = map
-  default     = {}
+  type    = map(any)
+  default = {}
 }

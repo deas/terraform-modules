@@ -79,7 +79,7 @@ locals {
 }
 
 module "flux" {
-  source = "../flux"
+  source = "../.."
   # version
   github_owner    = var.flux_github_owner
   repository_name = var.flux_repository_name
@@ -102,7 +102,7 @@ module "flux" {
 }
 
 module "secrets" {
-  source = "../google-secrets"
+  source = "../../../google-secrets"
   # version
   gcp_credentials = var.gcp_secrets_credentials
   project_id      = var.gcp_secrets_project_id

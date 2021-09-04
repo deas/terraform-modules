@@ -2,11 +2,11 @@
 terraform {
   required_providers {
     kubectl = {
-      source  = "gavinbunney/kubectl"
+      source = "gavinbunney/kubectl"
       // version = ">= 1.10.0"
     }
     kubernetes = {
-      source  = "hashicorp/kubernetes"
+      source = "hashicorp/kubernetes"
       // version = ">= 2.0.2"
     }
 
@@ -19,15 +19,16 @@ locals {
   install = [for v in data.kubectl_file_documents.install.documents : {
     data : yamldecode(v)
     content : v
-  }
+    }
   ]
   sync = [for v in data.kubectl_file_documents.sync.documents : {
     data : yamldecode(v)
     content : v
-  }
+    }
   ]
 }
 
+# TODO: Should be replaced by kubectl (which uses apply and we need anyways )
 resource "kubernetes_namespace" "flux_system" {
   metadata {
     name = "flux-system"
@@ -71,13 +72,13 @@ resource "kubernetes_secret" "main" {
 
   data = {
     identity       = var.tls_key["private"] # tls_private_key.main.private_key_pem
-    "identity.pub" = var.tls_key["public"] # tls_private_key.main.public_key_pem
+    "identity.pub" = var.tls_key["public"]  # tls_private_key.main.public_key_pem
     known_hosts    = local.known_hosts
   }
 }
 
 resource "kubernetes_secret" "additional" {
-  for_each = var.additional_keys
+  for_each   = var.additional_keys
   depends_on = [kubectl_manifest.install]
 
   metadata {
