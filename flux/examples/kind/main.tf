@@ -3,7 +3,7 @@ terraform {
   required_providers {
     kind = {
       source  = "kyma-incubator/kind"
-      version = "0.0.9" # ~> 1.0"
+      version = "0.0.11" # ~> 1.0"
     }
     /*
     github = {
@@ -34,7 +34,7 @@ provider "kind" {
 
 provider "kubernetes" {
   # config_path = kind_cluster.default.kubeconfig
-  # config_context = "kind-search"
+  # config_context = "kind-flux"
   host                   = kind_cluster.default.endpoint
   client_certificate     = kind_cluster.default.client_certificate
   client_key             = kind_cluster.default.client_key
@@ -50,8 +50,18 @@ provider "kubectl" {
   load_config_file = false
 }
 
+locals {
+  additional_keys = zipmap(
+    keys(var.additional_keys),
+    [for secret in values(var.additional_keys) :
+      zipmap(
+        keys(secret),
+      [for path in values(secret) : file(path)])
+  ])
+}
+
 resource "kind_cluster" "default" {
-  name           = "search"
+  name           = "flux"
   wait_for_ready = true
   kind_config {
     kind        = "Cluster"
@@ -73,11 +83,6 @@ resource "kind_cluster" "default" {
   }
 }
 
-locals {
-  filename_flux_install = "./clusters/${var.cluster}/flux-system/gotk-components.yaml"
-  filename_flux_sync    = "./clusters/${var.cluster}/flux-system/gotk-sync.yaml"
-}
-
 module "flux" {
   source = "../.."
   # version
@@ -85,8 +90,14 @@ module "flux" {
   repository_name = var.flux_repository_name
   target_path     = var.target_path
   branch          = var.flux_branch
-  flux_install    = file(local.filename_flux_install)
-  flux_sync       = file(local.filename_flux_sync)
+  flux_install    = file("${var.filename_flux_path}/gotk-components.yaml")
+  flux_sync       = file("${var.filename_flux_path}/gotk-sync.yaml")
+  tls_key = {
+    private = file(var.id_rsa_fluxbot_ro_path)
+    public  = file(var.id_rsa_fluxbot_ro_pub_path)
+  }
+  additional_keys = local.additional_keys
+  /*
   tls_key = {
     private = module.secrets.secret["id-rsa-fluxbot-ro"].secret_data
     public  = module.secrets.secret["id-rsa-fluxbot-ro-pub"].secret_data
@@ -96,25 +107,27 @@ module "flux" {
       "sops.asc" = module.secrets.secret["sops-gpg"].secret_data
     }
   }
+  */
   providers = {
     kubernetes = kubernetes
   }
 }
 
+/*
 module "secrets" {
   source = "../../../google-secrets"
-  # version
   gcp_credentials = var.gcp_secrets_credentials
   project_id      = var.gcp_secrets_project_id
   secrets         = var.flux_secrets
 }
+*/
 
+# Ugly git submodule workaround
 #module "flux-manifests" {
-#  source = "git::https://github.com/MediaMarktSaturn/search-deployment.git//clusters/test/flux-system"
+#  source = "git::https://github.com/.../foo-deployment.git//clusters/test/flux-system"
 #}
 
 #data "flux_install" "main" {
 #  # count       = var.github_init ? 1 : 0
 #  target_path = var.target_path
 #}
-

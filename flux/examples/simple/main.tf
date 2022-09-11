@@ -51,5 +51,5 @@ module "flux" {
 
 # Ugly git submodule workaround
 #module "flux-manifests" {
-#  source = "git::https://github.com/MediaMarktSaturn/search-deployment.git//clusters/test/flux-system"
+#  source = "git::https://github.com/.../foo-deployment.git//clusters/test/flux-system"
 #}
