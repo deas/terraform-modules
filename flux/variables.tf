@@ -1,14 +1,3 @@
-variable "repository_name" {
-  type        = string
-  description = "github repository name"
-}
-
-variable "repository_visibility" {
-  type        = string
-  default     = "private"
-  description = "How visible is the github repo"
-}
-
 variable "target_path" {
   type        = string
   description = "flux sync target path"
