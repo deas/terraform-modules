@@ -1,4 +1,4 @@
-# terraform module for flux
+# terraform module for ArgoCD
 
 ## Usage
 TODO
@@ -8,15 +8,12 @@ TODO
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
-| flux\_install | n/a | `string` | n/a | yes |
-| flux\_sync | n/a | `string` | n/a | yes |
-| tls\_key | n/a | `map(string)` | n/a | yes |
+| application\_manifest | n/a | `string` | `null` | no |
+| bootstrap\_manifest | n/a | `string` | `null` | no |
+| namespace | n/a | `string` | `"argocd"` | no |
 
 ## Outputs
 
 No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## References
-[flux](https://fluxcd.io/)

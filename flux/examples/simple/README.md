@@ -1,20 +1,16 @@
-# terraform example for flux on kind
+# terraform simple example for flux
 
 ## Usage
-```shell
-cp sample.tfvars terraform.tfvars
-# Set proper values in terraform.tfvars
-terraform apply
-```
+TODO
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
-| filename\_flux\_path | n/a | `string` | `"../simple/clusters/local/flux-system"` | no |
+| cluster | n/a | `string` | n/a | yes |
 | flux\_branch | branch name | `string` | `"main"` | no |
-| flux\_github\_owner | github owner | `string` | n/a | yes |
+| flux\_github\_owner | github owner name | `string` | n/a | yes |
 | flux\_repository\_name | github repository name | `string` | n/a | yes |
 | id\_rsa\_fluxbot\_ro\_path | n/a | `string` | n/a | yes |
 | id\_rsa\_fluxbot\_ro\_pub\_path | n/a | `string` | n/a | yes |
@@ -22,8 +18,6 @@ terraform apply
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| cluster | Object describing the whole created project |
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

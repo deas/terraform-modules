@@ -1,5 +1,7 @@
 # https://github.com/hashicorp/terraform/issues/28580#issuecomment-831263879
 terraform {
+  required_version = ">= 1.3"
+
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"

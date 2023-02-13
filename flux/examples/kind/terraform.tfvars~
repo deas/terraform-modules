@@ -1,0 +1,9 @@
+flux_github_owner          = "deas"
+flux_branch                = "develop"
+flux_repository_name       = "hc-k8s-deployment"
+id_rsa_fluxbot_ro_path     = "./id_rsa_hc-fluxbot"
+id_rsa_fluxbot_ro_pub_path = "./id_rsa_hc-fluxbot.pub"
+# filename_flux_path         = "../../../../../The-Quality-Group/hc-k8s-deployment/clusters/local/flux-system"
+additional_keys = { "sops-gpg" = { "sops.asc" = "./hc-automation-private.asc" } }
+target_path     = "clusters/local"
+cluster         = "local"

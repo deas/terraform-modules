@@ -1,15 +1,14 @@
-# https://github.com/hashicorp/terraform/issues/28580#issuecomment-831263879
 terraform {
+  required_version = ">= 1.3"
   required_providers {
     kubectl = {
-      source = "gavinbunney/kubectl"
-      // version = ">= 1.10.0"
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.10.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
-      // version = ">= 2.0.2"
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0.2"
     }
-
   }
 }
 

@@ -8,11 +8,13 @@ variable "flux_github_owner" {
   description = "github owner"
 }
 
+/*
 variable "flux_repository_visibility" {
   type        = string
   default     = "private"
   description = "How visible is the github repo"
 }
+*/
 
 variable "flux_repository_name" {
   type        = string
@@ -68,8 +70,8 @@ variable "gcp_secrets_project_id" {
 variable "flux_secrets" {
   type = set(string)
 }
-*/
 
 variable "cluster" {
   type = string
 }
+*/
