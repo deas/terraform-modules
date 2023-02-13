@@ -4,8 +4,8 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: example
-  namespace: metallb-system
+  name: ${name}
+  namespace: ${namespace}
 spec:
   addresses:
   - ${ip_range}
@@ -13,5 +13,5 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: empty
-  namespace: metallb-system
+  name: ${name}
+  namespace: ${namespace}

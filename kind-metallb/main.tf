@@ -15,6 +15,16 @@ locals {
   ip_range     = format("%s.%s-%s.%s", local.subnet_start, var.ipam[0], local.subnet_start, var.ipam[0])
 }
 
+variable "namespace" {
+  type    = string
+  default = "metallb-system"
+}
+
+variable "name" {
+  type    = string
+  default = "example"
+}
+
 variable "network_name" {
   type    = string
   default = "kind"
@@ -31,6 +41,8 @@ data "external" "ipam" {
 
 output "manifest" {
   value = templatefile("${path.module}/manifest.tmpl.yaml", {
-    "ip_range" = local.ip_range
+    "ip_range"  = local.ip_range
+    "name"      = var.name
+    "namespace" = var.namespace
   })
 }
