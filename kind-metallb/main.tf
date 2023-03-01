@@ -12,7 +12,7 @@ terraform {
 
 locals {
   subnet_start = join(".", slice(split(".", data.external.ipam.result["Subnet"]), 0, 2))
-  ip_range     = format("%s.%s-%s.%s", local.subnet_start, var.ipam[0], local.subnet_start, var.ipam[0])
+  ip_range     = format("%s.%s-%s.%s", local.subnet_start, var.ipam[0], local.subnet_start, var.ipam[1])
 }
 
 variable "namespace" {
