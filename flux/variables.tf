@@ -14,7 +14,8 @@ variable "flux_sync" {
 }
 
 variable "tls_key" {
-  type = map(string)
+  type    = map(string)
+  default = null
 }
 
 variable "additional_keys" {

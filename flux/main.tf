@@ -64,6 +64,7 @@ resource "kubectl_manifest" "sync" {
 
 resource "kubernetes_secret" "main" {
   depends_on = [kubectl_manifest.install]
+  count      = var.tls_key != null ? 1 : 0
 
   metadata {
     name      = "flux-system" # data.flux_sync.main.secret
@@ -71,6 +72,7 @@ resource "kubernetes_secret" "main" {
   }
 
   data = {
+    # TODO: Name mapping - be careful with breaking changes downstream
     identity       = var.tls_key["private"] # tls_private_key.main.private_key_pem
     "identity.pub" = var.tls_key["public"]  # tls_private_key.main.public_key_pem
     known_hosts    = local.known_hosts
