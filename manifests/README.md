@@ -1,4 +1,4 @@
-# terraform module for flux
+# terraform module for kubectl manifests
 
 ## Usage
 TODO
@@ -7,10 +7,7 @@ TODO
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_keys | n/a | `map(any)` | `{}` | no |
-| flux\_install | n/a | `string` | n/a | yes |
-| flux\_sync | n/a | `string` | n/a | yes |
-| tls\_key | n/a | `map(string)` | `null` | no |
+| manifest | n/a | `string` | `null` | no |
 
 ## Outputs
 
@@ -19,4 +16,3 @@ No output.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## References
-[flux](https://fluxcd.io/)
