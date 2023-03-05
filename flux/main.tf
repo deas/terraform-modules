@@ -42,7 +42,8 @@ data "kubectl_file_documents" "bootstrap" {
 }
 
 resource "kubectl_manifest" "bootstrap" {
-  for_each = { for v in local.bootstrap : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
+  for_each           = { for v in local.bootstrap : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
+  override_namespace = var.namespace # TODO: A bit hacky, but we want a generic configmap (ca-certs) applied to various namespaces 
   # depends_on = [helm_release.argocd]
   yaml_body = each.value
 }
