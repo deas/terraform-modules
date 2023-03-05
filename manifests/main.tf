@@ -22,6 +22,7 @@ data "kubectl_file_documents" "main" {
 }
 
 resource "kubectl_manifest" "main" {
-  for_each  = { for v in local.main : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
-  yaml_body = each.value
+  for_each           = { for v in local.main : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
+  override_namespace = var.override_namespace
+  yaml_body          = each.value
 }

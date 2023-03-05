@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../argocd-conductr"
+    },
+    {
+      "path": "../flux-conductr"
+    },
+    {
+      "path": "../ka0s"
+    }
+  ]
+}
