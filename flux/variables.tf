@@ -5,6 +5,16 @@ variable "target_path" {
 }
 */
 
+variable "bootstrap_manifest" {
+  type    = string
+  default = null
+}
+
+variable "namespace" {
+  type    = string
+  default = "flux-system" # must exist
+}
+
 variable "flux_install" {
   type = string
 }

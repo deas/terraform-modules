@@ -8,6 +8,7 @@ TODO
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | manifest | n/a | `string` | `null` | no |
+| override\_namespace | n/a | `string` | `null` | no |
 
 ## Outputs
 
