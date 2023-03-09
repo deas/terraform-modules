@@ -1,10 +1,3 @@
-/*
-variable "target_path" {
-  type        = string
-  description = "flux sync target path"
-}
-*/
-
 variable "bootstrap_manifest" {
   type    = string
   default = null
@@ -12,14 +5,10 @@ variable "bootstrap_manifest" {
 
 variable "namespace" {
   type    = string
-  default = "flux-system" # must exist
+  default = "flux-system"
 }
 
-variable "flux_install" {
-  type = string
-}
-
-variable "flux_sync" {
+variable "kustomization_path" {
   type = string
 }
 

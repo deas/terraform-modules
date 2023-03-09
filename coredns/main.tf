@@ -6,7 +6,6 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = ">= 1.10.0"
     }
-
   }
 }
 

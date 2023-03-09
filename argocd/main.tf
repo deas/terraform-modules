@@ -1,4 +1,5 @@
 # https://github.com/hashicorp/terraform/issues/28580#issuecomment-831263879
+# TODO: argocd namespace should be created here to be in alignment with flux module/kustomization provider
 terraform {
   required_version = ">= 1.3"
   required_providers {
@@ -10,32 +11,12 @@ terraform {
       source  = "hashicorp/helm"
       version = ">= 2.7.1"
     }
-    kubectl = {
+    kubectl = { # TODO : Should be replaced by kustomization provider to align with flux?
       source  = "gavinbunney/kubectl"
       version = ">= 1.10.0"
     }
   }
 }
-
-
-#provider "helm" {
-#  kubernetes {
-#  }
-#}
-
-#provider "kubernetes" {
-# config_path = kind_cluster.default.kubeconfig
-# config_context = "kind-argocd"
-#}
-
-#provider "kubectl" {
-#  host                   = kind_cluster.default.endpoint
-#  client_certificate     = kind_cluster.default.client_certificate
-#  client_key             = kind_cluster.default.client_key
-#  cluster_ca_certificate = kind_cluster.default.cluster_ca_certificate
-#  # token                  = data.aws_eks_cluster_auth.main.token
-#  load_config_file = false
-#}
 
 locals {
   additional_keys = zipmap(

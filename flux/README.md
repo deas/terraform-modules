@@ -9,14 +9,15 @@ TODO
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
 | bootstrap\_manifest | n/a | `string` | `null` | no |
-| flux\_install | n/a | `string` | n/a | yes |
-| flux\_sync | n/a | `string` | n/a | yes |
+| kustomization\_path | n/a | `string` | n/a | yes |
 | namespace | n/a | `string` | `"flux-system"` | no |
 | tls\_key | n/a | `map(string)` | `null` | no |
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| namespace | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.0.2"
     }
+    kustomization = {
+      source  = "kbst/kustomization"
+      version = ">= 0.9.2"
+    }
   }
 }
 
@@ -22,7 +26,7 @@ locals {
     }
   ], [])
 
-
+  /*
   install = [for v in data.kubectl_file_documents.install.documents : {
     data : yamldecode(v)
     content : v
@@ -33,7 +37,11 @@ locals {
     content : v
     }
   ]
+  */
+}
 
+data "kustomization_build" "main" {
+  path = var.kustomization_path
 }
 
 data "kubectl_file_documents" "bootstrap" {
@@ -64,29 +72,53 @@ resource "kubernetes_namespace" "main" {
 }
 */
 
-data "kubectl_file_documents" "install" {
-  content = var.flux_install # data.flux_install.main.content
+# first loop through resources in ids_prio[0]
+resource "kustomization_resource" "p0" {
+  for_each = data.kustomization_build.main.ids_prio[0]
+
+  manifest = (
+    contains(["_/Secret"], regex("(?P<group_kind>.*/.*)/.*/.*", each.value)["group_kind"])
+    ? sensitive(data.kustomization_build.main.manifests[each.value])
+    : data.kustomization_build.main.manifests[each.value]
+  )
 }
 
-data "kubectl_file_documents" "sync" {
-  content = var.flux_sync # data.flux_sync.main.content
+# then loop through resources in ids_prio[1]
+# and set an explicit depends_on on kustomization_resource.p0
+# wait 2 minutes for any deployment or daemonset to become ready
+resource "kustomization_resource" "p1" {
+  for_each = data.kustomization_build.main.ids_prio[1]
+
+  manifest = (
+    contains(["_/Secret"], regex("(?P<group_kind>.*/.*)/.*/.*", each.value)["group_kind"])
+    ? sensitive(data.kustomization_build.main.manifests[each.value])
+    : data.kustomization_build.main.manifests[each.value]
+  )
+  #wait = true
+  #timeouts {
+  #  create = "2m"
+  #  update = "2m"
+  #}
+
+  depends_on = [kustomization_resource.p0]
 }
 
+# finally, loop through resources in ids_prio[2]
+# and set an explicit depends_on on kustomization_resource.p1
+resource "kustomization_resource" "p2" {
+  for_each = data.kustomization_build.main.ids_prio[2]
 
-resource "kubectl_manifest" "install" {
-  for_each = { for v in local.install : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
-  # depends_on = [kubernetes_namespace.flux_system]
-  yaml_body = each.value
-}
+  manifest = (
+    contains(["_/Secret"], regex("(?P<group_kind>.*/.*)/.*/.*", each.value)["group_kind"])
+    ? sensitive(data.kustomization_build.main.manifests[each.value])
+    : data.kustomization_build.main.manifests[each.value]
+  )
 
-resource "kubectl_manifest" "sync" {
-  for_each   = { for v in local.sync : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
-  depends_on = [/*kubernetes_namespace.flux_system,*/ kubectl_manifest.install]
-  yaml_body  = each.value
+  depends_on = [kustomization_resource.p1]
 }
 
 resource "kubernetes_secret" "main" {
-  depends_on = [kubectl_manifest.install]
+  depends_on = [kustomization_resource.p0]
   count      = var.tls_key != null ? 1 : 0
 
   metadata {
@@ -104,7 +136,7 @@ resource "kubernetes_secret" "main" {
 
 resource "kubernetes_secret" "additional" {
   for_each   = var.additional_keys
-  depends_on = [kubectl_manifest.install]
+  depends_on = [kustomization_resource.p0]
 
   metadata {
     name      = each.key
