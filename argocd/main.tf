@@ -26,11 +26,35 @@ locals {
         keys(secret),
       [for path in values(secret) : file(path)])
   ])
+  bootstrap = try([for v in data.kubectl_file_documents.bootstrap[0].documents : {
+    data : yamldecode(v)
+    content : v
+    }
+  ], {})
+
 
   # TODO: Whoa! The ultimate mess. Can we do better?
   source         = yamldecode(var.application_manifest)["spec"]["source"]
   argocd_version = local.source["targetRevision"]
   argocd_values  = yamlencode(yamldecode(local.source["helm"]["values"]))
+}
+
+resource "kubectl_manifest" "bootstrap" {
+  for_each   = { for v in local.bootstrap : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
+  depends_on = [kubernetes_namespace.argocd]
+  yaml_body  = each.value
+}
+
+
+data "kubectl_file_documents" "bootstrap" {
+  count   = var.bootstrap_path != null ? 1 : 0
+  content = file(var.bootstrap_path)
+}
+
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = var.namespace
+  }
 }
 
 # https://www.arthurkoziel.com/setting-up-argocd-with-helm/
@@ -40,7 +64,7 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   version          = local.argocd_version
-  namespace        = var.namespace
+  namespace        = kubernetes_namespace.argocd.metadata[0].name
   create_namespace = false # true
   values           = [local.argocd_values]
   # values           = [file("../apps/argocd/values.yaml")]
@@ -51,7 +75,7 @@ resource "kubernetes_secret" "additional" {
 
   metadata {
     name      = each.key
-    namespace = var.namespace
+    namespace = kubernetes_namespace.argocd.metadata[0].name
   }
 
   data = each.value
@@ -71,8 +95,8 @@ locals {
 }
 
 data "kubectl_file_documents" "argocd_cluster" {
-  count   = var.bootstrap_manifest == null ? 0 : 1
-  content = var.bootstrap_manifest
+  count   = var.cluster_manifest == null ? 0 : 1
+  content = var.cluster_manifest
 }
 
 resource "kubectl_manifest" "argocd_cluster" {

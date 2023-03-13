@@ -13,7 +13,12 @@ variable "application_manifest" {
   default = null
 }
 
-variable "bootstrap_manifest" {
+variable "cluster_manifest" {
+  type    = string
+  default = null
+}
+
+variable "bootstrap_path" {
   type    = string
   default = null
 }

@@ -8,9 +8,10 @@ Projects leveraging the modules include:
 
 - [flux-conductr](https://github.com/deas/flux-conductr) : Focuses on the `flux` bit in `flux` based GitOps. (Initial project)
 - [argocd-conductr](https://github.com/deas/argocd-conductr) : Focuses on the `argocd` bit in `argocd` based GitOps. (Currently Small compared to its `flux` counterpart)
-- [ka0s](https://github.com/deas/argocd-conductr) : Focuses on a [`Litmus`](https://litmuschaos.io/) based platform supported by `flux`.
+- [ka0s](https://github.com/deas/ka0s) : Focuses on a [`Litmus`](https://litmuschaos.io/) based platform supported by `flux`.
 
 The projects themselves aim at providing a GitOps deployable solution.
 
 ## TODO
 - Introduce tests (e.g. `terratest`)
+- Introduce proper versioning

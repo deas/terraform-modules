@@ -9,7 +9,8 @@ TODO
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
 | application\_manifest | n/a | `string` | `null` | no |
-| bootstrap\_manifest | n/a | `string` | `null` | no |
+| bootstrap\_path | n/a | `string` | `null` | no |
+| cluster\_manifest | n/a | `string` | `null` | no |
 | namespace | n/a | `string` | `"argocd"` | no |
 
 ## Outputs
