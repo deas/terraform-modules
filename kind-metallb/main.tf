@@ -36,6 +36,7 @@ variable "ipam" {
 }
 
 data "external" "ipam" {
+  # TODO: Blows up `Error Message: Error response from daemon: network kind not found` if network does not exist
   program = ["docker", "network", "inspect", "--format", "{{ json (index .IPAM.Config 0) }}", var.network_name]
 }
 

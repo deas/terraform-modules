@@ -12,5 +12,8 @@
     {
       "path": "../ka0s"
     }
-  ]
+  ],
+  "settings": {
+    "ansible.python.interpreterPath": "/usr/bin/python3"
+  }
 }

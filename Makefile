@@ -43,13 +43,15 @@ export PATH:=${GOBIN}:${PATH}
 fmt: ## Terraform fmt
 	terraform fmt --check --recursive
 
+
 .PHONY: lint
-lint: ## tflint
+lint:  ## Run go/terraform linter
+	go vet ./...
 	tflint --recursive
 
-#test: ## Execute Go tests
-#	PATH=$(BIN_PATH):$$PATH \
-#	go test ./... -coverprofile cover.out
+test: ## Execute Go tests
+	PATH=$(BIN_PATH):$$PATH \
+	go test ./... -coverprofile cover.out
 ##	-v
 
 .PHONY: generate_docs

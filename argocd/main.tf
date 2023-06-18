@@ -31,12 +31,6 @@ locals {
     content : v
     }
   ], {})
-
-
-  # TODO: Whoa! The ultimate mess. Can we do better?
-  source         = yamldecode(var.application_manifest)["spec"]["source"]
-  argocd_version = local.source["targetRevision"]
-  argocd_values  = yamlencode(yamldecode(local.source["helm"]["values"]))
 }
 
 resource "kubectl_manifest" "bootstrap" {
@@ -63,10 +57,10 @@ resource "helm_release" "argocd" {
   depends_on       = [kubernetes_secret.additional]
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
-  version          = local.argocd_version
+  version          = var.chart_version
   namespace        = kubernetes_namespace.argocd.metadata[0].name
   create_namespace = false # true
-  values           = [local.argocd_values]
+  values           = [var.values]
   # values           = [file("../apps/argocd/values.yaml")]
 }
 

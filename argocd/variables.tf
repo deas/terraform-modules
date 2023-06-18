@@ -8,9 +8,12 @@ variable "namespace" {
   default = "argocd"
 }
 
-variable "application_manifest" {
-  type    = string
-  default = null
+variable "values" {
+  type = string
+}
+
+variable "chart_version" {
+  type = string
 }
 
 variable "cluster_manifest" {
