@@ -11,9 +11,13 @@
     },
     {
       "path": "../ka0s"
+    },
+    {
+      "path": "../../3rd-party/nixpkgs"
     }
   ],
   "settings": {
-    "ansible.python.interpreterPath": "/usr/bin/python3"
+    "ansible.python.interpreterPath": "/usr/bin/python3",
+    "nix.enableLanguageServer": true
   }
 }
