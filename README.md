@@ -26,3 +26,4 @@ The projects themselves aim at providing a GitOps deployable solution.
 - Introduce tests (e.g. `terratest`)
 - Settle host tooling around `nix` in projects
 - Introduce proper versioning
+- Try [Chainguard Images](https://www.chainguard.dev/chainguard-images)(wolfi),[Nixery](https://nixery.dev/)
