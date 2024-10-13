@@ -16,6 +16,11 @@ variable "chart_version" {
   type = string
 }
 
+variable "release_name" {
+  type    = string
+  default = "argo-cd"
+}
+
 variable "cluster_manifest" {
   type    = string
   default = null

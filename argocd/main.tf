@@ -52,8 +52,8 @@ resource "kubernetes_namespace" "argocd" {
 }
 
 # https://www.arthurkoziel.com/setting-up-argocd-with-helm/
-resource "helm_release" "argocd" {
-  name             = "argocd"
+resource "helm_release" "this" {
+  name             = var.release_name
   depends_on       = [kubernetes_secret.additional]
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
