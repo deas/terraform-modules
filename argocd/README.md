@@ -9,10 +9,10 @@ TODO
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
 | bootstrap\_path | n/a | `string` | `null` | no |
-| chart\_version | n/a | `string` | `null` | no |
+| chart\_version | n/a | `string` | n/a | yes |
 | cluster\_manifest | n/a | `string` | `null` | no |
 | namespace | n/a | `string` | `"argocd"` | no |
-| values | n/a | `string` | `null` | no |
+| values | n/a | `list(string)` | n/a | yes |
 
 ## Outputs
 

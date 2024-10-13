@@ -60,8 +60,7 @@ resource "helm_release" "argocd" {
   version          = var.chart_version
   namespace        = kubernetes_namespace.argocd.metadata[0].name
   create_namespace = false # true
-  values           = [var.values]
-  # values           = [file("../apps/argocd/values.yaml")]
+  values           = var.values
 }
 
 resource "kubernetes_secret" "additional" {

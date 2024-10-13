@@ -16,6 +16,14 @@ The projects themselves aim at providing a GitOps deployable solution.
 - Replace `kubectl` with `kustomization` provider
 - Check/Borrow from/Integrate with [kubestack](https://www.kubestack.com/)?
 - Test drive [Crossplane](https://www.crossplane.io/) in general and [Provider Terraform is a Crossplane](https://marketplace.upbound.io/providers/upbound/provider-terraform/v0.5.0/docs/quickstart) specifically
+- Evaluate-/compare terraform (replacement) solutions:
+ - Cluster-API (partially)
+ - tf-controller
+ - Crossplane
+ - Atlantis
+ - [`diggerhq/digger`](https://github.com/diggerhq/digger)
+ - Terraform Operator (Hashicorp)
 - Introduce tests (e.g. `terratest`)
 - Settle host tooling around `nix` in projects
 - Introduce proper versioning
+- Try [Chainguard Images](https://www.chainguard.dev/chainguard-images)(wolfi),[Nixery](https://nixery.dev/)

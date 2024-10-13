@@ -9,7 +9,7 @@ variable "namespace" {
 }
 
 variable "values" {
-  type = string
+  type = list(string)
 }
 
 variable "chart_version" {
@@ -44,3 +44,4 @@ variable "argocd_secrets" {
   type = set(string)
 }
 */
+

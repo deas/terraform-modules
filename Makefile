@@ -55,7 +55,7 @@ test: ## Execute Go tests
 ##	-v
 
 .PHONY: generate_docs
-generate_docs: # Generate documentation
+generate_docs: ## Generate documentation
 	docker run --rm -it \
 		-v $(CURDIR):/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
