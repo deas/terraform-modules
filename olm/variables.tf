@@ -1,3 +1,9 @@
+#variable "kustomization_path" {
+#  type        = string
+#  default     = "assets/olm"
+#  description = "Default path to OLM Kustomization"
+#}
+
 variable "url_olm_crds" {
   type    = string
   default = "https://raw.githubusercontent.com/operator-framework/operator-lifecycle-manager/master/deploy/upstream/quickstart/crds.yaml"

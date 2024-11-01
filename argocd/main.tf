@@ -52,8 +52,8 @@ resource "kubernetes_namespace" "argocd" {
 }
 
 # https://www.arthurkoziel.com/setting-up-argocd-with-helm/
-resource "helm_release" "argocd" {
-  name             = "argocd"
+resource "helm_release" "this" {
+  name             = var.release_name
   depends_on       = [kubernetes_secret.additional]
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
@@ -94,7 +94,7 @@ data "kubectl_file_documents" "argocd_cluster" {
 
 resource "kubectl_manifest" "argocd_cluster" {
   for_each   = { for v in local.argocd_cluster : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
-  depends_on = [helm_release.argocd]
+  depends_on = [helm_release.this]
   yaml_body  = each.value
 }
 
