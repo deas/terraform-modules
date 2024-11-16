@@ -12,8 +12,8 @@ terraform {
       version = ">= 2.7.1"
     }
     kubectl = { # TODO : Should be replaced by kustomization provider to align with flux?
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.10.0"
+      source  = "alekc/kubectl"
+      version = ">= 2.1.0"
     }
   }
 }
