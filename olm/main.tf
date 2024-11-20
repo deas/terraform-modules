@@ -103,8 +103,9 @@ data "kubectl_file_documents" "olm" {
 }
 
 resource "kubectl_manifest" "olm_crds" {
-  for_each  = { for v in local.olm_crds : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
-  yaml_body = each.value
+  for_each = { for v in local.olm_crds : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
+  server_side_apply = true # Needed to prevent last-applied annotation to blow up b/c of size
+  yaml_body         = each.value
 }
 
 resource "kubectl_manifest" "olm" {
