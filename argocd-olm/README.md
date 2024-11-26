@@ -8,12 +8,11 @@ TODO
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
+| argocd\_instance | n/a | `string` | n/a | yes |
 | bootstrap\_path | n/a | `string` | `null` | no |
-| chart\_version | n/a | `string` | n/a | yes |
 | cluster\_manifest | n/a | `string` | `null` | no |
 | namespace | n/a | `string` | `"argocd"` | no |
-| release\_name | n/a | `string` | `"argo-cd"` | no |
-| values | n/a | `list(string)` | n/a | yes |
+| subscription | n/a | <pre>object({<br>    yaml_body    = string<br>    crd_dep_hack = string<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
