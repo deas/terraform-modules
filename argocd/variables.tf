@@ -27,7 +27,7 @@ variable "cluster_manifest" {
 }
 
 variable "bootstrap_path" {
-  type    = string
+  type    = list(string)
   default = null
 }
 

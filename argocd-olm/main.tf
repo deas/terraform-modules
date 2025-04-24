@@ -1,7 +1,6 @@
 # https://github.com/hashicorp/terraform/issues/28580#issuecomment-831263879
 # TODO: argocd namespace should be created here to be in alignment with flux module/kustomization provider
 terraform {
-  required_version = ">= 1.3"
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -47,7 +46,7 @@ resource "kubectl_manifest" "bootstrap" {
 
 data "kubectl_file_documents" "bootstrap" {
   count   = var.bootstrap_path != null ? 1 : 0
-  content = file(var.bootstrap_path)
+  content = join("---\n", [for filename in var.bootstrap_path : file(filename)])
 }
 
 resource "kubernetes_namespace" "argocd" {
@@ -134,6 +133,7 @@ resource "kubernetes_secret" "additional" {
 #}
 
 resource "kubectl_manifest" "argocd_cluster" {
+  count = var.cluster_manifest != null ? 1 : 0
   # for_each = { for v in local.argocd_cluster : lower(join("/", compact([v.data.apiVersion, v.data.kind, lookup(v.data.metadata, "namespace", ""), v.data.metadata.name]))) => v.content }
   # We should ensure the ArgoCD instance is up before we create the Application. Otherwise it takes quicte long to create up
   depends_on = [/* kubectl_manifest.argocd_instance,*/ null_resource.argocd_instance, kubernetes_namespace.argocd]

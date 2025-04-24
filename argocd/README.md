@@ -8,7 +8,7 @@ TODO
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
-| bootstrap\_path | n/a | `string` | `null` | no |
+| bootstrap\_path | n/a | `list(string)` | `null` | no |
 | chart\_version | n/a | `string` | n/a | yes |
 | cluster\_manifest | n/a | `string` | `null` | no |
 | namespace | n/a | `string` | `"argocd"` | no |

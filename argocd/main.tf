@@ -42,7 +42,7 @@ resource "kubectl_manifest" "bootstrap" {
 
 data "kubectl_file_documents" "bootstrap" {
   count   = var.bootstrap_path != null ? 1 : 0
-  content = file(var.bootstrap_path)
+  content = join("---\n", [for filename in var.bootstrap_path : file(filename)])
 }
 
 resource "kubernetes_namespace" "argocd" {

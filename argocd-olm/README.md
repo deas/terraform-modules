@@ -9,7 +9,7 @@ TODO
 |------|-------------|------|---------|:--------:|
 | additional\_keys | n/a | `map(any)` | `{}` | no |
 | argocd\_instance | n/a | `string` | n/a | yes |
-| bootstrap\_path | n/a | `string` | `null` | no |
+| bootstrap\_path | n/a | `list(string)` | `null` | no |
 | cluster\_manifest | n/a | `string` | `null` | no |
 | namespace | n/a | `string` | `"argocd"` | no |
 | subscription | n/a | <pre>object({<br>    yaml_body    = string<br>    crd_dep_hack = string<br>  })</pre> | n/a | yes |
